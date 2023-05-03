@@ -1,0 +1,74 @@
+{
+    "rabbit_version": "3.12.0-rc.1",
+    "rabbitmq_version": "3.12.0-rc.1",
+    "product_name": "RabbitMQ",
+    "product_version": "3.12.0-rc.1",
+    "users": [
+        {
+            "name": "device",
+            "password_hash": "YnOU2LJVvMsQ4YGz6Js9j2pezQP9wYXcNel3LoJYR+Y87aLh",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": ["device"],
+            "limits": {}
+        },
+        {
+            "name": "vector",
+            "password": "vector",
+            "tags": ["vector"],
+            "limits": {}
+        },
+        {
+            "name": "guest",
+            "password_hash": "TCJ/m+56eHcI60h8pBBKHDqELMbgiRl9PbIIcKvD62j6w+nW",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ],
+            "limits": {}
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "/"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "device",
+            "vhost": "/",
+            "configure": "^([amq.topic].*)$",
+            "write": "^([amq.topic].*)$",
+            "read": "^([amq.topic].*)$"
+        },
+        {
+            "user": "vector",
+            "vhost": "/",
+            "configure": "^(vector.*)$",
+            "write": ".*",
+            "read": ".*"
+        }
+    ],
+    "topic_permissions": [
+        {
+            "user": "vector",
+            "vhost": "/",
+            "exchange": "amq.topic",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "device",
+            "vhost": "/",
+            "exchange": "amq.topic",
+            "write": "^devices.{client_id}.(state|(events.*))$",
+            "read": "^devices.{client_id}.(config|(commands.*))$"
+        }
+            
+    ],
+    "parameters": [],
+    "global_parameters": [],
+    "policies": [],
+    "exchanges": [],
+    "queues": [],
+    "bindings": []
+}
