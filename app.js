@@ -7,8 +7,8 @@ console.log(hostname);
 (async () => {
     const conn = await amqplib.connect({
         hostname: hostname,
-        username: 'vector',
-        password: 'vector',
+        username: 'guest',
+        password: 'guest',
     });
 
     // consume lifecycle events
@@ -17,6 +17,7 @@ console.log(hostname);
     await channel.bindQueue(queue.queue, 'amq.rabbitmq.event', 'connection.*');
     channel.consume(queue.queue, async (msg) => {
         if (!msg) {
+            console.log('[WARN] no message consumed!');
             return;
         }
         // ideally we would be able to get client_id
@@ -30,8 +31,8 @@ console.log(hostname);
 
     // connect and disconnect from MQTT
     const client = mqtt.connect(`mqtt://${hostname}`, {
-        username: 'device',
-        password: 'device',
+        username: 'guest',
+        password: 'guest',
     });
     client.on('connect', () => {
         client.end();
